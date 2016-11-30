@@ -2,12 +2,34 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 var Promise = require('bluebird');
+var Card = require('./components/Card.jsx');
+var Test = require('./components/Test.jsx');
 var Colors = require('./constants/Colors');
 
-var Lunch = React.createClass ({
+var RecipeData = require('./utils/RecipeData');
+
+
+
+var Recipe = React.createClass ({
   getInitialState: function() {
     return {data: [] };
   },
+  
+  fetchRecipes: function(searchTerm) {
+    console.log("Going to fetch recipes");
+    RecipeData.get(searchTerm).bind(this).then(function(data) {
+      this.setState({ data: data});
+      return true;
+    }).catch(function(e) {
+      return false;
+    })
+  },
+  
+  componentDidMount: function() {
+    // todo fetchRecipes with whatever result is typed into the Search Bar
+    this.fetchRecipes('onigiri');
+  },
+  
   
   render: function() {
     var cardStyle = {
@@ -42,11 +64,11 @@ var Lunch = React.createClass ({
     }
     
       return (
-      <div style={cardStyle}>
-        <h3 style={title}> Onigiri </h3>
+      <div>
+        <Card />
       </div>
     );
   }
 });
 
-ReactDOM.render(<Lunch/>, document.getElementById('lunch'));
+ReactDOM.render(<Recipe/>, document.getElementById('recipeContainer'));

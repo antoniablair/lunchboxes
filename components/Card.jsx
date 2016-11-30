@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 var Promise = require('bluebird');
 var Colors = require('../constants/Colors');
 
-var Card = React.createClass ({
+var Card = React.createClass({
   getInitialState: function() {
     return {data: [] };
   },
@@ -18,8 +18,6 @@ var Card = React.createClass ({
       backgroundColor: Colors.paper,
       fontFamily: 'Roboto',
       cursor: 'pointer',
-      marginRight: '10px',
-      marginLeft: '10px',
       borderRadius: '5%',
       fontWeight: '300', 
       overflow: 'hidden',
@@ -44,14 +42,11 @@ var Card = React.createClass ({
       return (
       <div style={cardStyle}>
         <h3 style={title}> Onigiri </h3>
-        <ul>
-          <li>Instagram</li>
-          <li>WhatsApp</li>
-          <li>Oculus</li>
-        </ul>
+        <p> Picture will go here </p>
+        <p> Recipe content will go here </p>
       </div>
     );
   }
 });
 
-ReactDOM.render(<Lunch/>, document.getElementById('lunch'));
+module.exports = Card;

@@ -50,13 +50,9 @@
 
 	var _Lunch2 = _interopRequireDefault(_Lunch);
 
-	var _hello = __webpack_require__(187);
-
-	var _hello2 = _interopRequireDefault(_hello);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(188);
+	__webpack_require__(191);
 
 /***/ },
 /* 1 */
@@ -75,13 +71,32 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Promise = __webpack_require__(184);
-	var Colors = __webpack_require__(186);
+	var Card = __webpack_require__(186);
+	var Test = __webpack_require__(188);
+	var Colors = __webpack_require__(187);
 
-	var Lunch = _react2.default.createClass({
-	  displayName: 'Lunch',
+	var RecipeData = __webpack_require__(189);
+
+	var Recipe = _react2.default.createClass({
+	  displayName: 'Recipe',
 
 	  getInitialState: function getInitialState() {
 	    return { data: [] };
+	  },
+
+	  fetchRecipes: function fetchRecipes(searchTerm) {
+	    console.log("Going to fetch recipes");
+	    RecipeData.get(searchTerm).bind(this).then(function (data) {
+	      this.setState({ data: data });
+	      return true;
+	    }).catch(function (e) {
+	      return false;
+	    });
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    // todo fetchRecipes with whatever result is typed into the Search Bar
+	    this.fetchRecipes('onigiri');
 	  },
 
 	  render: function render() {
@@ -118,36 +133,13 @@
 
 	    return _react2.default.createElement(
 	      'div',
-	      { style: cardStyle },
-	      _react2.default.createElement(
-	        'h3',
-	        { style: title },
-	        ' Onigiri '
-	      ),
-	      _react2.default.createElement(
-	        'ul',
-	        null,
-	        _react2.default.createElement(
-	          'li',
-	          null,
-	          'Instagram'
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          null,
-	          'WhatsApp'
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          null,
-	          'Oculus'
-	        )
-	      )
+	      null,
+	      _react2.default.createElement(Card, null)
 	    );
 	  }
 	});
 
-	_reactDom2.default.render(_react2.default.createElement(Lunch, null), document.getElementById('lunch'));
+	_reactDom2.default.render(_react2.default.createElement(Recipe, null), document.getElementById('recipeContainer'));
 
 /***/ },
 /* 2 */
@@ -27528,6 +27520,86 @@
 
 /***/ },
 /* 186 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Promise = __webpack_require__(184);
+	var Colors = __webpack_require__(187);
+
+	var Card = _react2.default.createClass({
+	  displayName: 'Card',
+
+	  getInitialState: function getInitialState() {
+	    return { data: [] };
+	  },
+
+	  render: function render() {
+	    var cardStyle = {
+	      width: '250px',
+	      height: '400px',
+	      display: 'block',
+	      color: Colors.black,
+	      backgroundColor: Colors.paper,
+	      fontFamily: 'Roboto',
+	      cursor: 'pointer',
+	      borderRadius: '5%',
+	      fontWeight: '300',
+	      overflow: 'hidden'
+	    };
+
+	    var title = {
+	      color: Colors.paper,
+	      backgroundColor: Colors.charcoal,
+	      textAlign: 'center',
+	      paddingTop: '35px',
+	      paddingBottom: '25px',
+	      width: '100%',
+	      fontWeight: '100',
+	      marginTop: '-10px'
+	    };
+
+	    var text = {
+	      lineHeight: '20px',
+	      fontSize: '15px'
+	    };
+
+	    return _react2.default.createElement(
+	      'div',
+	      { style: cardStyle },
+	      _react2.default.createElement(
+	        'h3',
+	        { style: title },
+	        ' Onigiri '
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        ' Picture will go here '
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        ' Recipe content will go here '
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Card;
+
+/***/ },
+/* 187 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -27542,12 +27614,10 @@
 	};
 
 /***/ },
-/* 187 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(2);
 
@@ -27559,48 +27629,102 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Hello = function (_React$Component) {
-	    _inherits(Hello, _React$Component);
-
-	    function Hello() {
-	        _classCallCheck(this, Hello);
-
-	        return _possibleConstructorReturn(this, (Hello.__proto__ || Object.getPrototypeOf(Hello)).apply(this, arguments));
+	var Test = _react2.default.createClass({
+	    displayName: 'Test',
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'h1',
+	            null,
+	            'Hello'
+	        );
 	    }
+	});
 
-	    _createClass(Hello, [{
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'h1',
-	                null,
-	                'Hello'
-	            );
-	        }
-	    }]);
-
-	    return Hello;
-	}(_react2.default.Component);
-
-	_reactDom2.default.render(_react2.default.createElement(Hello, null), document.getElementById('hello'));
+	module.exports = Test;
 
 /***/ },
-/* 188 */
+/* 189 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Promise = __webpack_require__(184);
+
+	var Secrets = __webpack_require__(190);
+
+	var RecipeData = {
+	    get: function get(searchTerm) {
+
+	        var xmlhttp = new XMLHttpRequest();
+	        var url = 'http://food2fork.com/api/search?key=' + Secrets.FoodKey + '&q=' + searchTerm;
+
+	        console.log('------');
+	        console.log(url);
+
+	        xmlhttp.onreadystatechange = function () {
+	            if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+	                if (xmlhttp.status == 200) {
+	                    console.log("The result !!!");
+	                    console.log(xmlhttp.responseText)[1];
+	                    return xmlhttp.responseText;
+	                } else {
+	                    //   do something here and reject the promise
+	                }
+	            }
+	        };
+	        xmlhttp.open("GET", url, true);
+	        xmlhttp.send();
+	    }
+
+	    // With ajax 
+	    // get: function(searchTerm) {
+	    //     console.log("In RecipeData get");
+	    //     console.log("Search Term is " + searchTerm);
+	    //     console.log('http://food2fork.com/api/search?key=' + Secrets.FoodKey + '&q=' + searchTerm);
+	    //     return new Promise(function (resolve, reject) {
+	    //         $.ajax({
+	    //             url: ('http://food2fork.com/api/search?key=' + Secrets.FoodKey + '&q=' + searchTerm),
+	    //             dataType: 'json',
+	    //             cache: false,
+	    //             success: function(data) {
+	    //                 resolve(data);
+	    //                 console.log("Successful retrieved the recipes");
+	    //             },
+	    //             error: function(err) {
+	    //                 console.log("The error was ");
+	    //                 console.log(err);
+	    //                 // todo: Add some logging and error states
+	    //                 var result = new Error();
+	    //                 reject(result);
+	    //             },
+	    //         })
+	    //     })
+	    // }
+	};
+
+	module.exports = RecipeData;
+
+/***/ },
+/* 190 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = {
+	    FoodKey: '9e009f9423782800c0b7e5015ab28c1a'
+	};
+
+/***/ },
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(189);
+	var content = __webpack_require__(192);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(191)(content, {});
+	var update = __webpack_require__(194)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -27617,21 +27741,21 @@
 	}
 
 /***/ },
-/* 189 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(190)();
+	exports = module.exports = __webpack_require__(193)();
 	// imports
 
 
 	// module
-	exports.push([module.id, ".default {\n    background-color: #DCD0C0;\n    font-family: 'Roboto';\n}\n\n.title {\n    font-family: 'Yrsa';\n    padding-left: 15px;\n}\n\n", ""]);
+	exports.push([module.id, ".default {\n    background-color: #DCD0C0;\n    font-family: 'Yrsa';\n}\n\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 190 */
+/* 193 */
 /***/ function(module, exports) {
 
 	/*
@@ -27687,7 +27811,7 @@
 
 
 /***/ },
-/* 191 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

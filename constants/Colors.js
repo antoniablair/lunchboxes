@@ -5,4 +5,4 @@ module.exports = ({
     gold: '#C0B283',
     paper: '#F4F4F4',
     silk: '#DCDC0C0',
-})
+});
