@@ -2,21 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 var Promise = require('bluebird');
-var Colors = require('./constants/Colors');
+var Colors = require('../constants/Colors');
 
-var Lunch = React.createClass ({
+var Card = React.createClass ({
   getInitialState: function() {
     return {data: [] };
   },
   
   render: function() {
     var cardStyle = {
-      color: Colors.black,
-      backgroundColor: Colors.paper,
-      fontFamily: 'Roboto',
       width: '250px',
       height: '400px',
       display: 'block',
+      color: Colors.black,
+      backgroundColor: Colors.paper,
+      fontFamily: 'Roboto',
       cursor: 'pointer',
       marginRight: '10px',
       marginLeft: '10px',
@@ -44,6 +44,11 @@ var Lunch = React.createClass ({
       return (
       <div style={cardStyle}>
         <h3 style={title}> Onigiri </h3>
+        <ul>
+          <li>Instagram</li>
+          <li>WhatsApp</li>
+          <li>Oculus</li>
+        </ul>
       </div>
     );
   }

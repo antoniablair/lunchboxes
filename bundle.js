@@ -64,8 +64,6 @@
 
 	'use strict';
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -76,89 +74,78 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 	var Promise = __webpack_require__(184);
 	var Colors = __webpack_require__(186);
 
-	var Lunch = function (_React$Component) {
-	  _inherits(Lunch, _React$Component);
+	var Lunch = _react2.default.createClass({
+	  displayName: 'Lunch',
 
-	  function Lunch() {
-	    _classCallCheck(this, Lunch);
+	  getInitialState: function getInitialState() {
+	    return { data: [] };
+	  },
 
-	    return _possibleConstructorReturn(this, (Lunch.__proto__ || Object.getPrototypeOf(Lunch)).apply(this, arguments));
-	  }
+	  render: function render() {
+	    var cardStyle = {
+	      color: Colors.black,
+	      backgroundColor: Colors.paper,
+	      fontFamily: 'Roboto',
+	      width: '250px',
+	      height: '400px',
+	      display: 'block',
+	      cursor: 'pointer',
+	      marginRight: '10px',
+	      marginLeft: '10px',
+	      borderRadius: '5%',
+	      fontWeight: '300',
+	      overflow: 'hidden'
+	    };
 
-	  _createClass(Lunch, [{
-	    key: 'render',
-	    value: function render() {
-	      var cardStyle = {
-	        width: '250px',
-	        height: '400px',
-	        display: 'block',
-	        color: Colors.black,
-	        backgroundColor: Colors.paper,
-	        fontFamily: 'Roboto',
-	        cursor: 'pointer',
-	        marginRight: '10px',
-	        marginLeft: '10px',
-	        borderRadius: '5%',
-	        fontWeight: '300'
-	      };
+	    var title = {
+	      color: Colors.paper,
+	      backgroundColor: Colors.charcoal,
+	      textAlign: 'center',
+	      paddingTop: '35px',
+	      paddingBottom: '25px',
+	      width: '100%',
+	      fontWeight: '100',
+	      marginTop: '-10px'
+	    };
 
-	      var title = {
-	        color: Colors.paper,
-	        backgroundColor: Colors.charcoal,
-	        textAlign: 'center',
-	        paddingTop: '15px',
-	        paddingBottom: '15px',
-	        width: '100%',
-	        fontWeight: '100'
-	      };
+	    var text = {
+	      lineHeight: '20px',
+	      fontSize: '15px'
+	    };
 
-	      var text = {
-	        lineHeight: '20px',
-	        fontSize: '15px'
-	      };
-
-	      return _react2.default.createElement(
-	        'div',
-	        { style: cardStyle },
+	    return _react2.default.createElement(
+	      'div',
+	      { style: cardStyle },
+	      _react2.default.createElement(
+	        'h3',
+	        { style: title },
+	        ' Onigiri '
+	      ),
+	      _react2.default.createElement(
+	        'ul',
+	        null,
 	        _react2.default.createElement(
-	          'h3',
-	          { style: title },
-	          ' Onigiri '
+	          'li',
+	          null,
+	          'Instagram'
 	        ),
 	        _react2.default.createElement(
-	          'ul',
+	          'li',
 	          null,
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            'Instagram'
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            'WhatsApp'
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            'Oculus'
-	          )
+	          'WhatsApp'
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          'Oculus'
 	        )
-	      );
-	    }
-	  }]);
-
-	  return Lunch;
-	}(_react2.default.Component);
+	      )
+	    );
+	  }
+	});
 
 	_reactDom2.default.render(_react2.default.createElement(Lunch, null), document.getElementById('lunch'));
 
@@ -27638,7 +27625,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n    background-color: #DCD0C0;\n    margin: 30px;\n}\n\nh1 {\n    font-family: 'Yrsa 300',\n}\n", ""]);
+	exports.push([module.id, ".default {\n    background-color: #DCD0C0;\n    font-family: 'Roboto';\n}\n\n.title {\n    font-family: 'Yrsa';\n    padding-left: 15px;\n}\n\n", ""]);
 
 	// exports
 
