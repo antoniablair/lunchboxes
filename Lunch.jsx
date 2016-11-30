@@ -16,9 +16,9 @@ var Recipe = React.createClass ({
   },
   
   fetchRecipes: function(searchTerm) {
-    console.log("Going to fetch recipes");
     RecipeData.get(searchTerm).bind(this).then(function(data) {
       this.setState({ data: data});
+      console.log(this.state.data);
       return true;
     }).catch(function(e) {
       return false;
@@ -26,49 +26,40 @@ var Recipe = React.createClass ({
   },
   
   componentDidMount: function() {
-    // todo fetchRecipes with whatever result is typed into the Search Bar
+    // todo: this is a placeholder.
+    // fetchRecipes with whatever search term is typed into the Search Bar or URL parameter.
+    // If no search term available, fall back to a default search term defined in constants.
     this.fetchRecipes('onigiri');
+    setInterval(this.fetchRecipes, this.props.pollInterval);
   },
   
   
   render: function() {
-    var cardStyle = {
-      color: Colors.black,
-      backgroundColor: Colors.paper,
-      fontFamily: 'Roboto',
-      width: '250px',
-      height: '400px',
-      display: 'block',
-      cursor: 'pointer',
-      marginRight: '10px',
-      marginLeft: '10px',
-      borderRadius: '5%',
-      fontWeight: '300', 
-      overflow: 'hidden',
-    };
-    
-    var title = {
-      color: Colors.paper,
-      backgroundColor: Colors.charcoal,
-      textAlign: 'center',
-      paddingTop: '35px',
-      paddingBottom: '25px',
-      width: '100%',
-      fontWeight: '100',
-      marginTop: '-10px',
-    }
-    
-    var text = {
-      lineHeight: '20px',
-      fontSize: '15px',
-    }
-    
       return (
       <div>
-        <Card />
+        {this.renderCards(this.state.data)}
       </div>
     );
+  },
+
+/**
+ * Render recipes onto the page in the form of card components.
+ */
+
+  renderCards: function(recipes) {
+    console.log("Render cards");
+    var output = [];
+    if (recipes != undefined && recipes != null) {
+      for (var i = 0; i < recipes.length; i++) {
+        currentRecipe = recipes[i];
+
+        output.push(<Card recipe={currentRecipe} key={i} />);
+      }
+    }
+    return output;
   }
+
 });
+
 
 ReactDOM.render(<Recipe/>, document.getElementById('recipeContainer'));
