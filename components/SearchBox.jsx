@@ -45,7 +45,18 @@ var SearchBox = React.createClass ({
     var searchContainer = {
       color: Colors.charcoal,
       margin: '10px 30px 30px 30px',
+      fontFamily: 'Roboto',
+      fontWeight: '100',
+      fontSize: '20px',
     };
+
+    var button = {
+      color: Colors.paper,
+      backgroundColor: Colors.charcoal,
+      border: 'none',
+      paddingLeft: '10px',
+      paddingRight: '10px',
+    }
 
     // Todo: make it change appearance after user submits
 
@@ -57,7 +68,7 @@ var SearchBox = React.createClass ({
                placeholder={(this.state.searchTerm != '') ? this.state.searchTerm : 'search' }
                value={this.state.searchTerm}
                onChange={this.handleSearchTyping} />
-        <button type='submit'>Search for Recipes</button>
+        <button type='submit' style={button}>Search for Recipes</button>
         </form>
       </div>
     );

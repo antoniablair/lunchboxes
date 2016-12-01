@@ -14,7 +14,7 @@ var Card = React.createClass({
   render: function() {
     var cardStyle = {
       width: '250px',
-      height: '300px',
+      height: '270px',
       display: 'block',
       textAlign: 'center',
       color: Colors.black,
