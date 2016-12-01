@@ -9,11 +9,11 @@ var RecipeDataJquery = {
                  dataType: 'json',
                  cache: false,
                  success: function(data) {
-                     resolve(data);
+                   resolve(data);
                  },
                  error: function(err) {
-                     var result = new Error();
-                     reject(result);
+                   var result = new Error();
+                   reject(result);
                  },
              })
          })

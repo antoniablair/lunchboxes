@@ -9,16 +9,16 @@ var Ingredients = React.createClass({
   },
 
   render: function() {
-      var items = {
-          textAlign: 'left',
-          width: '80%',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          textAlign: 'center',
-      };
+    var items = {
+      textAlign: 'left',
+      width: '80%',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      textAlign: 'center',
+    };
 
 
-      return (
+    return (
       <div style={items}>
         <p>{this.props.items}</p>
       </div>
