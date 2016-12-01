@@ -8,9 +8,6 @@ var SearchStore = require('../stores/SearchStore');
 /**
  * Search box for looking up new recipes and lunch ideas.
  *
- * Note: This store contains some methods that are not being
- * used yet but will be used to handle show UI elements
- * down the road for things like 'No results found!'.
  **/
 
 function getSearchState() {
@@ -22,7 +19,6 @@ function getSearchState() {
   }
 }
 
-// Form for user to enter a food and find new lunch ideas
 var SearchBox = React.createClass ({
   getInitialState: function() {
     var state = getSearchState();
@@ -62,7 +58,7 @@ var SearchBox = React.createClass ({
         <form onSubmit={this.handleSubmitSearch}>
         <input
                type='text'
-               placeholder={(this.state.searchTerm != '') ? this.state.searchTerm : 'search' }
+               placeholder={(this.state.searchTerm !== '') ? this.state.searchTerm : 'search' }
                value={this.state.searchTerm}
                onChange={this.handleSearchTyping} />
         <button type='submit' style={button}>Search for Recipes</button>

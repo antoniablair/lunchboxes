@@ -15,7 +15,6 @@ var RecipeData = {
                      resolve(data['results']);
                  },
                  error: function(err) {
-                   console.log('the error is ' + err);
                    var result = new Error();
                    reject(result);
                  },
