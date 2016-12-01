@@ -5,7 +5,7 @@ var RecipeDataJquery = {
      get: function(searchTerm) {
          return new Promise(function (resolve, reject) {
              $.ajax({
-                 url: ('http://food2fork.com/api/search?key=' + Secrets.FoodKey + '&q=' + searchTerm),
+                 url: ('http://www.recipepuppy.com/api/?q=' + searchTerm),
                  dataType: 'json',
                  cache: false,
                  success: function(data) {

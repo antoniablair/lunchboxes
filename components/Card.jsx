@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 var Promise = require('bluebird');
 var Colors = require('../constants/Colors');
+var Ingredients = require('../components/Ingredients.jsx');
 
 var Card = React.createClass({
   getInitialState: function() {
@@ -12,8 +13,9 @@ var Card = React.createClass({
   render: function() {
     var cardStyle = {
       width: '250px',
-      height: '400px',
+      height: '250px',
       display: 'block',
+      textAlign: 'center',
       color: Colors.black,
       backgroundColor: Colors.paper,
       fontFamily: 'Roboto',
@@ -21,6 +23,9 @@ var Card = React.createClass({
       borderRadius: '5%',
       fontWeight: '300', 
       overflow: 'hidden',
+      marginBottom: '30px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
     };
     
     var title = {
@@ -29,22 +34,40 @@ var Card = React.createClass({
       textAlign: 'center',
       paddingTop: '35px',
       paddingBottom: '25px',
+      paddingLeft: '15px',
+      paddingRight: '15px',
       width: '100%',
       fontWeight: '100',
       marginTop: '-10px',
-    }
+      fontSize: '22px',
+    };
     
     var text = {
       lineHeight: '20px',
       fontSize: '15px',
-    }
+    };
+
+    var show = {
+      display: 'block',
+    };
+
+    var hide = {
+      display: 'none',
+    };
+
+    var thumbnail = {
+      marginRight: 'auto',
+      marginLeft: 'auto',
+    };
     
       return (
-      <div style={cardStyle}>
-        <h3 style={title}> Onigiri </h3>
-        <p> Picture will go here </p>
-        <p> Recipe content will go here </p>
-      </div>
+      <a href={this.props.recipe.href} key={this.props.key} target='_blank'>
+        <div style={cardStyle}>
+          <h3 style={title}> {this.props.recipe.title} </h3>
+          <img style={(this.props.recipe.thumbnail !== '') ? Object.assign(show, thumbnail) : hide} src={this.props.recipe.thumbnail} />
+          <Ingredients items={(this.props.recipe.ingredients).split(',')} />
+        </div>
+      </a>
     );
   }
 });

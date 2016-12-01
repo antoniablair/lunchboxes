@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-var Promise = require('bluebird');
 var Card = require('./components/Card.jsx');
-var Test = require('./components/Test.jsx');
 var Colors = require('./constants/Colors');
 
 var RecipeData = require('./utils/RecipeData');
@@ -18,7 +16,6 @@ var Recipe = React.createClass ({
   fetchRecipes: function(searchTerm) {
     RecipeData.get(searchTerm).bind(this).then(function(data) {
       this.setState({ data: data});
-      console.log(this.state.data);
       return true;
     }).catch(function(e) {
       return false;
@@ -26,18 +23,17 @@ var Recipe = React.createClass ({
   },
   
   componentDidMount: function() {
-    // todo: this is a placeholder.
-    // fetchRecipes with whatever search term is typed into the Search Bar or URL parameter.
-    // If no search term available, fall back to a default search term defined in constants.
-    this.fetchRecipes('onigiri');
-    setInterval(this.fetchRecipes, this.props.pollInterval);
+    // todo:
+    // call the initial fetchRecipes with whatever search term is a URL parameter.
+    // If no search term available, fall back to a starter search term like ramen
+    this.fetchRecipes('ramen');
   },
-  
+
   
   render: function() {
       return (
       <div>
-        {this.renderCards(this.state.data)}
+        {(this.state.data.length > 0) ? this.renderCards(this.state.data) : ''}
       </div>
     );
   },
@@ -47,13 +43,13 @@ var Recipe = React.createClass ({
  */
 
   renderCards: function(recipes) {
-    console.log("Render cards");
     var output = [];
-    if (recipes != undefined && recipes != null) {
-      for (var i = 0; i < recipes.length; i++) {
-        currentRecipe = recipes[i];
 
-        output.push(<Card recipe={currentRecipe} key={i} />);
+    if (recipes !== undefined && recipes.length > 0) {
+      for (var i = 0; i < recipes.length; i++) {
+        var currentRecipe = recipes[i];
+
+        output.push(<div className='col-xs-12 col-sm-4'><Card recipe={currentRecipe} number={i} /></div>);
       }
     }
     return output;

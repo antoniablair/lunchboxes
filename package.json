@@ -23,9 +23,12 @@
     "remarkable": "^1.7.1",
     "require": "^2.4.20",
     "style-loader": "^0.13.1",
-    "webpack": "^1.13.3"
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "webpack-dev-server": "^1.16.2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

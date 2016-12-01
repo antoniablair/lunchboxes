@@ -46,9 +46,9 @@
 
 	'use strict';
 
-	var _Lunch = __webpack_require__(1);
+	var _RecipeApp = __webpack_require__(1);
 
-	var _Lunch2 = _interopRequireDefault(_Lunch);
+	var _RecipeApp2 = _interopRequireDefault(_RecipeApp);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -87,7 +87,6 @@
 	  fetchRecipes: function fetchRecipes(searchTerm) {
 	    RecipeData.get(searchTerm).bind(this).then(function (data) {
 	      this.setState({ data: data });
-	      console.log(this.state.data);
 	      return true;
 	    }).catch(function (e) {
 	      return false;
@@ -95,18 +94,17 @@
 	  },
 
 	  componentDidMount: function componentDidMount() {
-	    // todo: this is a placeholder.
-	    // fetchRecipes with whatever search term is typed into the Search Bar or URL parameter.
-	    // If no search term available, fall back to a default search term defined in constants.
-	    this.fetchRecipes('onigiri');
-	    setInterval(this.fetchRecipes, this.props.pollInterval);
+	    // todo:
+	    // call fetchRecipes with whatever search term is typed into the Search Bar or URL parameter.
+	    // If no search term available, fall back to a search term like ramen
+	    this.fetchRecipes('ramen');
 	  },
 
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      this.renderCards(this.state.data)
+	      this.state.data.length > 0 ? this.renderCards(this.state.data) : ''
 	    );
 	  },
 
@@ -115,13 +113,17 @@
 	   */
 
 	  renderCards: function renderCards(recipes) {
-	    console.log("Render cards");
 	    var output = [];
-	    if (recipes != undefined && recipes != null) {
-	      for (var i = 0; i < recipes.length; i++) {
-	        currentRecipe = recipes[i];
 
-	        output.push(_react2.default.createElement(Card, { recipe: currentRecipe, key: i }));
+	    if (recipes !== undefined && recipes.length > 0) {
+	      for (var i = 0; i < recipes.length; i++) {
+	        var currentRecipe = recipes[i];
+
+	        output.push(_react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-12 col-sm-4' },
+	          _react2.default.createElement(Card, { recipe: currentRecipe, key: i })
+	        ));
 	      }
 	    }
 	    return output;
@@ -27450,6 +27452,7 @@
 	      width: '250px',
 	      height: '400px',
 	      display: 'block',
+	      textAlign: 'center',
 	      color: Colors.black,
 	      backgroundColor: Colors.paper,
 	      fontFamily: 'Roboto',
@@ -27475,23 +27478,33 @@
 	      fontSize: '15px'
 	    };
 
+	    var show = {
+	      display: 'block'
+	    };
+
+	    var hide = {
+	      display: 'none'
+	    };
+
 	    return _react2.default.createElement(
-	      'div',
-	      { style: cardStyle },
+	      'a',
+	      { href: this.props.recipe.href },
 	      _react2.default.createElement(
-	        'h3',
-	        { style: title },
-	        ' Onigiri '
-	      ),
-	      _react2.default.createElement(
-	        'p',
-	        null,
-	        ' Picture will go here '
-	      ),
-	      _react2.default.createElement(
-	        'p',
-	        null,
-	        ' Recipe content will go here '
+	        'div',
+	        { style: cardStyle },
+	        _react2.default.createElement(
+	          'h3',
+	          { style: title },
+	          ' ',
+	          this.props.recipe.title,
+	          ' '
+	        ),
+	        _react2.default.createElement('img', { style: this.props.recipe.thumbnail !== '' ? show : hide, src: this.props.recipe.thumbnail }),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          ' Recipe content will go here '
+	        )
 	      )
 	    );
 	  }
@@ -27557,13 +27570,13 @@
 	        return new Promise(function (resolve, reject) {
 
 	            var xmlhttp = new XMLHttpRequest();
-	            var url = 'http://food2fork.com/api/search?key=' + Secrets.FoodKey + '&q=' + searchTerm;
+	            var url = 'http://www.recipepuppy.com/api/?q=' + searchTerm;
 
 	            xmlhttp.onreadystatechange = function () {
 	                if (xmlhttp.readyState == XMLHttpRequest.DONE) {
 	                    if (xmlhttp.status == 200) {
 	                        var data = JSON.parse(xmlhttp.responseText);
-	                        resolve(data);
+	                        resolve(data['results']);
 	                    } else {
 	                        //   todo: better error handling
 	                        var result = new Error();

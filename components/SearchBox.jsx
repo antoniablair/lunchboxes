@@ -4,13 +4,13 @@ import ReactDOM from 'react-dom';
 var SearchStore = require('../stores/SearchStore');
 
 function getSearchState() {
-    return {
-        displayError: SearchStore.errorStatus(),
-        displayWelcome: SearchStore.welcomeStatus(),
-        errorMsg: SearchStore.getErrorMsg(),
-        searchTerm: SearchStore.getSearchTerm(),
-        recipesLoaded: SearchStore.recipesStatus(),
-    }
+  return {
+    displayError: SearchStore.errorStatus(),
+    displayWelcome: SearchStore.welcomeStatus(),
+    errorMsg: SearchStore.getErrorMsg(),
+    searchTerm: SearchStore.getSearchTerm(),
+    recipesLoaded: SearchStore.recipesStatus(),
+  }
 }
 
 // Form for user to enter a food and find new lunch ideas
@@ -21,20 +21,20 @@ var SearchBox = React.createClass ({
   },
   
   componentDidMount: function() {
-      SearchStore.addChangeListener(this._onChange);
+    SearchStore.addChangeListener(this._onChange);
   },
   
   componentWillUnmount: function() {
-      SearchStore.removeChangeListener(this._onChange);
+    SearchStore.removeChangeListener(this._onChange);
   },
   
   searchFood: function() {
-      RecipeActions.updateSearchTerm(this.state.searchTerm);
+    RecipeActions.updateSearchTerm(this.state.searchTerm);
   },
   
   handleSubmitSearch: function(e) {
-      e.preventDefault();
-      this.searchFood();
+    e.preventDefault();
+    this.searchFood();
   },
   
   handleSearchTyping: function(e) {
@@ -44,13 +44,9 @@ var SearchBox = React.createClass ({
   },
   
   checkSearchTerm: function() {
-    // If want to do any checking, such as to make 
+    // If want to do any cleaning / checking, such as to make
     // sure the search term is not an integer, could do that here
     this.updateSearchTerm();
-  },
-  
-  setUrlParams: function() {
-    //   grab params from the URL to use as the initial 
   },
 
   render: function() {
