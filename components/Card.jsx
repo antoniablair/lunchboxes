@@ -65,7 +65,7 @@ var Card = React.createClass({
         <div style={cardStyle}>
           <h3 style={title}> {this.props.recipe.title} </h3>
           <img style={(this.props.recipe.thumbnail !== '') ? Object.assign(show, thumbnail) : hide} src={this.props.recipe.thumbnail} />
-          <Ingredients items={(this.props.recipe.ingredients).split(',')} />
+          <Ingredients items={this.props.recipe.ingredients} />
         </div>
       </a>
     );

@@ -9,18 +9,19 @@ var Ingredients = React.createClass({
   },
 
   render: function() {
-      var bullet = {
+      var items = {
           textAlign: 'left',
+          width: '80%',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          textAlign: 'center',
       };
 
-      var list = {
-          marginBottom: '15px',
-      };
 
       return (
-      <ul>
-        {this.props.items.map(function(item) { return <li style={bullet}>{item}</li>;})}
-      </ul>
+      <div style={items}>
+        <p>{this.props.items}</p>
+      </div>
     );
   },
 
