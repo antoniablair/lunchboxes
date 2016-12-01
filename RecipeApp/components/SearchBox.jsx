@@ -7,6 +7,10 @@ var SearchStore = require('../stores/SearchStore');
 
 /**
  * Search box for looking up new recipes and lunch ideas.
+ *
+ * Note: This store contains some methods that are not being
+ * used yet but will be used to handle show UI elements
+ * down the road for things like 'No results found!'.
  **/
 
 function getSearchState() {
