@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+var RecipeActions = require('../actions/RecipeActions');
+
+var Colors = require('../constants/Colors');
 var SearchStore = require('../stores/SearchStore');
 
 function getSearchState() {
@@ -9,7 +12,7 @@ function getSearchState() {
     displayWelcome: SearchStore.welcomeStatus(),
     errorMsg: SearchStore.getErrorMsg(),
     searchTerm: SearchStore.getSearchTerm(),
-    recipesLoaded: SearchStore.recipesStatus(),
+    typedTerm: SearchStore.getTypedTerm(),
   }
 }
 
@@ -19,51 +22,46 @@ var SearchBox = React.createClass ({
     var state = getSearchState();
     return state
   },
-  
-  componentDidMount: function() {
-    SearchStore.addChangeListener(this._onChange);
-  },
-  
-  componentWillUnmount: function() {
-    SearchStore.removeChangeListener(this._onChange);
-  },
-  
-  searchFood: function() {
-    RecipeActions.updateSearchTerm(this.state.searchTerm);
-  },
+
+  //componentDidMount: function() {
+  //  SearchStore.addChangeListener(this._onChange);
+  //},
+  //
+  //componentWillUnmount: function() {
+  //  SearchStore.removeChangeListener(this._onChange);
+  //},
   
   handleSubmitSearch: function(e) {
     e.preventDefault();
-    this.searchFood();
+    RecipeActions.updateSearchTerm(this.state.searchTerm);
   },
   
   handleSearchTyping: function(e) {
-    // callback because state is async
-    this.setState({ searchTerm: e.target.value}, function afterSearchTyping() 
-    {this.checkSearchTerm()})
-  },
-  
-  checkSearchTerm: function() {
-    // If want to do any cleaning / checking, such as to make
-    // sure the search term is not an integer, could do that here
-    this.updateSearchTerm();
+    // this allows the user to see what they are typing
+    this.setState({ searchTerm: e.target.value});
   },
 
   render: function() {
     var searchContainer = {
-      color: Colors.charcoal, 
-    }
-    
-      return (
-      <div class={searchContainer}>
-        <form style={zipcodeForm} onSubmit={this.handleSubmitSearch}>
-        <input style={searchInput} type='text' placeholder={(this.state.searchTerm != '') ? this.state.searchTerm : 'search' />
-        value={this.state.searchTerm}
-        onChange={this.handleSearchTyping} />
+      color: Colors.charcoal,
+      margin: '10px 30px 30px 30px',
+    };
+
+    // Todo: make it change appearance after user submits
+
+    return (
+      <div style={searchContainer} key='searchBox'>
+        <form onSubmit={this.handleSubmitSearch}>
+        <input
+               type='text'
+               placeholder={(this.state.searchTerm != '') ? this.state.searchTerm : 'search' }
+               value={this.state.searchTerm}
+               onChange={this.handleSearchTyping} />
+        <button type='submit'>Search for Recipes</button>
         </form>
       </div>
     );
-  }
+  },
 });
 
 module.exports = SearchBox;

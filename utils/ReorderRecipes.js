@@ -1,3 +1,7 @@
+/**
+ * Methods to change how the recipes are ordered.
+ **/
+
 var ReorderRecipes = {
   byImage: function(recipes) {
     var images = [];

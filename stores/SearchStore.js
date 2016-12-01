@@ -1,15 +1,19 @@
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
+
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+
+var Colors = require('../constants/Colors');
 var RecipeConstants = require('../constants/RecipeConstants');
 var RecipeData = require('../utils/RecipeData');
 
-var AppDispatcher = require('../dispatcher/AppDispatcher');
 
 var _searches = {
   'errorStatus': false,
   'welcomeStatus': true,
   'errorMsg': 'No results found!',
   'searchTerm': 'onigiri',
+  'typedTerm': '',
   'recipes': '',
 };
 
@@ -23,13 +27,37 @@ function loadRecipeData(searchTerm) {
   })
 }
 
+function updateSearchTerm(searchTerm) {
+  _searches['searchTerm'] = searchTerm;
+  console.log('this searchTerm is now');
+  console.log(_searches['searchTerm']);
+}
+
 var SearchStore = assign({}, EventEmitter.prototype, {
-  updateErrorMsg: function(errorMsg) {
-    _searches['errorMsg'] = errorMsg;
+  errorStatus: function() {
+    return _searches['errorStatus'];
+  },
+
+  welcomeStatus: function() {
+    return _searches['welcomeStatus'];
+  },
+
+  getErrorMsg: function() {
+    return _searches['errorMsg'];
+  },
+
+  getSearchTerm: function() {
+    console.log('getSearchTerm');
+    console.log(_searches['searchTerm']);
+    return _searches['searchTerm'];
+  },
+
+  getTypedTerm: function() {
+    return _searches['typedTerm'];
   },
 
   emitChange: function(callback) {
-    this.on(CHANGE_EVENT, callback);
+    this.emit(CHANGE_EVENT);
   },
 
   addChangeListener: function(callback) {
@@ -39,8 +67,8 @@ var SearchStore = assign({}, EventEmitter.prototype, {
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
-    
-    dispatcherIndex: AppDispatcher.register(function(payload) {
+
+  dispatcherIndex: AppDispatcher.register(function(payload) {
     var action = payload.action;
     var searchTerm;
 
@@ -56,14 +84,15 @@ var SearchStore = assign({}, EventEmitter.prototype, {
       break;
 
       case RecipeConstants.UPDATE_SEARCH_TERM:
+        console.log('made it to inside the appDispatcher');
         searchTerm = action.searchTerm;
 
-        loadRecipeData(searchTerm).then(function(data) {
-           SearchStore.emitChange();
-        }).catch(function(e, data) {
-            // fail silently for now
-        });
+        updateSearchTerm(searchTerm);
+        SearchStore.emitChange();
       break;
-      }
-    })
-})
+    }
+    return true;
+  })
+});
+
+module.exports = SearchStore;

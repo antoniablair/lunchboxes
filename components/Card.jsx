@@ -6,6 +6,7 @@ var Styles = require('../constants/CommonStyles');
 var Ingredients = require('../components/Ingredients.jsx');
 
 var Card = React.createClass({
+
   getInitialState: function() {
     return {data: [] };
   },
@@ -13,7 +14,7 @@ var Card = React.createClass({
   render: function() {
     var cardStyle = {
       width: '250px',
-      height: '250px',
+      height: '300px',
       display: 'block',
       textAlign: 'center',
       color: Colors.black,
@@ -35,15 +36,6 @@ var Card = React.createClass({
       fontWeight: '100',
       marginTop: '-10px',
       fontSize: '20px',
-    };
-
-    var text = {
-      lineHeight: '20px',
-      fontSize: '15px',
-    };
-
-    var show = {
-      display: 'block',
     };
 
     var hide = Styles.hide;

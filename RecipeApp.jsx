@@ -2,15 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 var Card = require('./components/Card.jsx');
+var SearchBox = require('./components/SearchBox.jsx');
+
 var Colors = require('./constants/Colors');
 
 var RecipeData = require('./utils/RecipeData');
 var ReorderRecipes = require('./utils/ReorderRecipes');
 
+var SearchStore = require('./stores/SearchStore');
+
+
+function getRecipeAppState() {
+  return {
+    searchTerm: SearchStore.getSearchTerm(),
+  }
+}
 
 var Recipe = React.createClass ({
   getInitialState: function() {
-    return {data: [] };
+    var state = getRecipeAppState();
+    return state;
   },
   
   fetchRecipes: function(searchTerm) {
@@ -22,18 +33,29 @@ var Recipe = React.createClass ({
       return false;
     })
   },
-  
+
   componentDidMount: function() {
+    console.log('component did mount');
     // todo:
     // call the initial fetchRecipes with whatever search term is a URL parameter.
     // If no search term available, fall back to a starter search term like ramen
-    this.fetchRecipes('onigiri');
+    SearchStore.addChangeListener(this._onChange);
+    this.fetchRecipes(this.state.searchTerm);
+  },
+
+  componentWillUnmount: function() {
+    SearchStore.removeChangeListener(this._onChange);
+  },
+
+  componentWillUpdate: function() {
+    this.fetchRecipes(this.state.searchTerm);
   },
   
   render: function() {
     return (
       <div key='recipeContainer'>
-        {(this.state.data.length > 0) ? this.renderCards(this.state.data) : ''}
+        <SearchBox />
+        {(this.state.data !== undefined && this.state.data.length > 0) ? this.renderCards(this.state.data) : ''}
       </div>
     );
   },
@@ -48,12 +70,15 @@ var Recipe = React.createClass ({
     if (recipes !== undefined && recipes.length > 0) {
       for (var i = 0; i < recipes.length; i++) {
         var currentRecipe = recipes[i];
-        output.push(<div className='col-xs-12 col-sm-4'><Card recipe={currentRecipe} number={i} /></div>);
+        output.push(<div className='col-xs-12 col-sm-4' key={i}><Card recipe={currentRecipe} number={'recipe' + i} /></div>);
       }
     }
     return output;
-  }
+  },
 
+  _onChange: function() {
+    this.setState(getRecipeAppState());
+  }
 });
 
 

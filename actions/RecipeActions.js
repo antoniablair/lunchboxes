@@ -8,6 +8,7 @@ var RecipeActions = {
     updateSearchTerm: function(searchTerm) {
         AppDispatcher.handleAction({
             actionType: 'UPDATE_SEARCH_TERM',
+            searchTerm: searchTerm,
         })
     },
     
