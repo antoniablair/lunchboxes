@@ -1,15 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+var Colors = require('./constants/Colors');
 var Card = require('./components/Card.jsx');
 var SearchBox = require('./components/SearchBox.jsx');
-
-var Colors = require('./constants/Colors');
-
+var SearchStore = require('./stores/SearchStore');
 var RecipeData = require('./utils/RecipeData');
 var ReorderRecipes = require('./utils/ReorderRecipes');
-
-var SearchStore = require('./stores/SearchStore');
 
 
 function getRecipeAppState() {
@@ -35,10 +32,9 @@ var Recipe = React.createClass ({
   },
 
   componentDidMount: function() {
-    console.log('component did mount');
     // todo:
     // call the initial fetchRecipes with whatever search term is a URL parameter.
-    // If no search term available, fall back to a starter search term like ramen
+    // If no search term available, fall back to the default search term
     SearchStore.addChangeListener(this._onChange);
     this.fetchRecipes(this.state.searchTerm);
   },

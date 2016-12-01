@@ -2,9 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 var RecipeActions = require('../actions/RecipeActions');
-
 var Colors = require('../constants/Colors');
 var SearchStore = require('../stores/SearchStore');
+
+/**
+ * Search box for looking up new foods.
+ * Todo: Add autosuggest, change UI when user submits a new search term
+ **/
 
 function getSearchState() {
   return {
@@ -22,14 +26,6 @@ var SearchBox = React.createClass ({
     var state = getSearchState();
     return state
   },
-
-  //componentDidMount: function() {
-  //  SearchStore.addChangeListener(this._onChange);
-  //},
-  //
-  //componentWillUnmount: function() {
-  //  SearchStore.removeChangeListener(this._onChange);
-  //},
   
   handleSubmitSearch: function(e) {
     e.preventDefault();
@@ -47,18 +43,17 @@ var SearchBox = React.createClass ({
       margin: '10px 30px 30px 30px',
       fontFamily: 'Roboto',
       fontWeight: '100',
-      fontSize: '20px',
+      fontSize: '18px',
+      marginBottom: '30px',
     };
 
     var button = {
       color: Colors.paper,
       backgroundColor: Colors.charcoal,
       border: 'none',
-      paddingLeft: '10px',
-      paddingRight: '10px',
+      paddingLeft: '30px',
+      paddingRight: '30px',
     }
-
-    // Todo: make it change appearance after user submits
 
     return (
       <div style={searchContainer} key='searchBox'>

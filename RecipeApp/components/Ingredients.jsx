@@ -4,6 +4,12 @@ import ReactDOM from 'react-dom';
 var Colors = require('../constants/Colors');
 var Styles = require('../constants/CommonStyles');
 
+/**
+ * Ingredients contained in the recipes
+ * Todo: Cut after certain character limit, add fixed margin
+ **/
+
+
 var Ingredients = React.createClass({
   getInitialState: function() {
     return {data: [] };

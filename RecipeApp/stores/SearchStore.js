@@ -2,19 +2,21 @@ var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
-
 var Colors = require('../constants/Colors');
 var RecipeConstants = require('../constants/RecipeConstants');
 var RecipeData = require('../utils/RecipeData');
 
+/**
+* This store contains information regarding the user's searches
+* and activity. The error states and welcome messages / prompts have not
+* been developed yet.
+**/
 
 var _searches = {
   'errorStatus': false,
   'welcomeStatus': true,
   'errorMsg': 'No results found!',
   'searchTerm': 'onigiri',
-  'typedTerm': '',
-  'recipes': '',
 };
 
 var CHANGE_EVENT = 'change';
@@ -29,8 +31,6 @@ function loadRecipeData(searchTerm) {
 
 function updateSearchTerm(searchTerm) {
   _searches['searchTerm'] = searchTerm;
-  console.log('this searchTerm is now');
-  console.log(_searches['searchTerm']);
 }
 
 var SearchStore = assign({}, EventEmitter.prototype, {
@@ -84,7 +84,6 @@ var SearchStore = assign({}, EventEmitter.prototype, {
       break;
 
       case RecipeConstants.UPDATE_SEARCH_TERM:
-        console.log('made it to inside the appDispatcher');
         searchTerm = action.searchTerm;
 
         updateSearchTerm(searchTerm);
