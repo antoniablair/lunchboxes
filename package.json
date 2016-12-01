@@ -15,7 +15,9 @@
     "bluebird": "^3.4.6",
     "browserify": "^13.1.1",
     "css-loader": "^0.26.0",
+    "ejs": "^2.5.3",
     "event-emitter": "^0.3.4",
+    "express": "^4.14.0",
     "flux": "^3.1.0",
     "object-assign": "^4.1.0",
     "react": "^15.4.1",
@@ -31,6 +33,10 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "4.4.5",
+    "npm": "2.15.5"
   },
   "author": "Antonia Blair",
   "license": "ISC"

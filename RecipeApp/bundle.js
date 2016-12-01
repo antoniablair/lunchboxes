@@ -70,19 +70,18 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Card = __webpack_require__(183);
-	var SearchBox = __webpack_require__(187);
-
-	var Colors = __webpack_require__(184);
-
+	var RecipeActions = __webpack_require__(183);
+	var Colors = __webpack_require__(188);
+	var Card = __webpack_require__(189);
+	var SearchBox = __webpack_require__(192);
+	var SearchStore = __webpack_require__(193);
 	var RecipeData = __webpack_require__(196);
 	var ReorderRecipes = __webpack_require__(199);
 
-	var SearchStore = __webpack_require__(193);
-
 	function getRecipeAppState() {
 	  return {
-	    searchTerm: SearchStore.getSearchTerm()
+	    searchTerm: SearchStore.getSearchTerm(),
+	    recipes: SearchStore.getRecipes()
 	  };
 	}
 
@@ -94,31 +93,25 @@
 	    return state;
 	  },
 
-	  fetchRecipes: function fetchRecipes(searchTerm) {
-	    RecipeData.get(searchTerm).bind(this).then(function (data) {
-	      var orderedRecipes = ReorderRecipes.byImage(data);
-	      this.setState({ data: orderedRecipes });
-	      return true;
-	    }).catch(function (e) {
-	      return false;
-	    });
-	  },
-
 	  componentDidMount: function componentDidMount() {
-	    console.log('component did mount');
 	    // todo:
 	    // call the initial fetchRecipes with whatever search term is a URL parameter.
-	    // If no search term available, fall back to a starter search term
+	    // If no search term available, fall back to the default search term
+
+	    if (this.state.recipes === undefined || this.state.recipes === '') {
+	      if (this.state.searchTerm !== undefined) {
+	        RecipeActions.fetchRecipes(this.state.searchTerm);
+	      }
+	    }
 	    SearchStore.addChangeListener(this._onChange);
-	    this.fetchRecipes(this.state.searchTerm);
 	  },
 
 	  componentWillUnmount: function componentWillUnmount() {
 	    SearchStore.removeChangeListener(this._onChange);
 	  },
 
-	  componentWillUpdate: function componentWillUpdate() {
-	    this.fetchRecipes(this.state.searchTerm);
+	  componentWillReceiveProps: function componentWillReceiveProps() {
+	    console.log('component will receive props');
 	  },
 
 	  render: function render() {
@@ -126,7 +119,7 @@
 	      'div',
 	      { key: 'recipeContainer' },
 	      _react2.default.createElement(SearchBox, null),
-	      this.state.data !== undefined && this.state.data.length > 0 ? this.renderCards(this.state.data) : ''
+	      this.state.recipes !== undefined && this.state.recipes.length > 0 ? this.renderCards(this.state.recipes) : ''
 	    );
 	  },
 
@@ -21765,268 +21758,7 @@
 
 	'use strict';
 
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(33);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Colors = __webpack_require__(184);
-	var Styles = __webpack_require__(185);
-	var Ingredients = __webpack_require__(186);
-
-	var Card = _react2.default.createClass({
-	  displayName: 'Card',
-
-
-	  getInitialState: function getInitialState() {
-	    return { data: [] };
-	  },
-
-	  render: function render() {
-	    var cardStyle = {
-	      width: '250px',
-	      height: '270px',
-	      display: 'block',
-	      textAlign: 'center',
-	      color: Colors.black,
-	      backgroundColor: Colors.paper,
-	      fontFamily: 'Roboto',
-	      cursor: 'pointer',
-	      borderRadius: '5%',
-	      fontWeight: '300',
-	      overflow: 'hidden',
-	      margin: '0px auto 30px auto'
-	    };
-
-	    var title = {
-	      color: Colors.paper,
-	      backgroundColor: Colors.charcoal,
-	      textAlign: 'center',
-	      padding: '35px 15px 25px 15px',
-	      width: '100%',
-	      fontWeight: '100',
-	      marginTop: '-10px',
-	      fontSize: '20px'
-	    };
-
-	    var hide = Styles.hide;
-	    var show = Styles.show;
-
-	    var thumbnail = {
-	      marginBottom: '15px',
-	      marginRight: 'auto',
-	      marginLeft: 'auto'
-	    };
-
-	    return _react2.default.createElement(
-	      'a',
-	      { href: this.props.recipe.href, key: this.props.number, target: '_blank' },
-	      _react2.default.createElement(
-	        'div',
-	        { style: cardStyle },
-	        _react2.default.createElement(
-	          'h3',
-	          { style: title },
-	          ' ',
-	          this.props.recipe.title,
-	          ' '
-	        ),
-	        _react2.default.createElement('img', { style: this.props.recipe.thumbnail !== '' ? Object.assign(show, thumbnail) : hide, src: this.props.recipe.thumbnail }),
-	        _react2.default.createElement(Ingredients, { items: this.props.recipe.ingredients })
-	      )
-	    );
-	  }
-	});
-
-	module.exports = Card;
-
-/***/ },
-/* 184 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = {
-	    white: '#fff',
-	    black: '#262626',
-	    charcoal: '#373737',
-	    gold: '#C0B283',
-	    paper: '#F4F4F4',
-	    silk: '#DCDC0C0'
-	};
-
-/***/ },
-/* 185 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	// for frequently used styles
-
-	module.exports = {
-	   center: { marginLeft: 'auto', marginRight: 'auto', textAlign: 'center' },
-	   show: { display: 'block' },
-	   hide: { display: 'none' }
-	};
-
-/***/ },
-/* 186 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(33);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Colors = __webpack_require__(184);
-	var Styles = __webpack_require__(185);
-
-	var Ingredients = _react2.default.createClass({
-	  displayName: 'Ingredients',
-
-	  getInitialState: function getInitialState() {
-	    return { data: [] };
-	  },
-
-	  render: function render() {
-	    var items = {
-	      width: '80%'
-	    };
-
-	    return _react2.default.createElement(
-	      'div',
-	      { style: Object.assign(items, Styles.center) },
-	      _react2.default.createElement(
-	        'p',
-	        null,
-	        this.props.items
-	      )
-	    );
-	  }
-
-	});
-
-	module.exports = Ingredients;
-
-/***/ },
-/* 187 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(33);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var RecipeActions = __webpack_require__(188);
-
-	var Colors = __webpack_require__(184);
-	var SearchStore = __webpack_require__(193);
-
-	function getSearchState() {
-	  return {
-	    displayError: SearchStore.errorStatus(),
-	    displayWelcome: SearchStore.welcomeStatus(),
-	    errorMsg: SearchStore.getErrorMsg(),
-	    searchTerm: SearchStore.getSearchTerm(),
-	    typedTerm: SearchStore.getTypedTerm()
-	  };
-	}
-
-	// Form for user to enter a food and find new lunch ideas
-	var SearchBox = _react2.default.createClass({
-	  displayName: 'SearchBox',
-
-	  getInitialState: function getInitialState() {
-	    var state = getSearchState();
-	    return state;
-	  },
-
-	  //componentDidMount: function() {
-	  //  SearchStore.addChangeListener(this._onChange);
-	  //},
-	  //
-	  //componentWillUnmount: function() {
-	  //  SearchStore.removeChangeListener(this._onChange);
-	  //},
-
-	  handleSubmitSearch: function handleSubmitSearch(e) {
-	    e.preventDefault();
-	    RecipeActions.updateSearchTerm(this.state.searchTerm);
-	  },
-
-	  handleSearchTyping: function handleSearchTyping(e) {
-	    // this allows the user to see what they are typing
-	    this.setState({ searchTerm: e.target.value });
-	  },
-
-	  render: function render() {
-	    var searchContainer = {
-	      color: Colors.charcoal,
-	      margin: '10px 30px 30px 30px',
-	      fontFamily: 'Roboto',
-	      fontWeight: '100',
-	      fontSize: '20px'
-	    };
-
-	    var button = {
-	      color: Colors.paper,
-	      backgroundColor: Colors.charcoal,
-	      border: 'none',
-	      paddingLeft: '10px',
-	      paddingRight: '10px'
-	    };
-
-	    // Todo: make it change appearance after user submits
-
-	    return _react2.default.createElement(
-	      'div',
-	      { style: searchContainer, key: 'searchBox' },
-	      _react2.default.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmitSearch },
-	        _react2.default.createElement('input', {
-	          type: 'text',
-	          placeholder: this.state.searchTerm != '' ? this.state.searchTerm : 'search',
-	          value: this.state.searchTerm,
-	          onChange: this.handleSearchTyping }),
-	        _react2.default.createElement(
-	          'button',
-	          { type: 'submit', style: button },
-	          'Search for Recipes'
-	        )
-	      )
-	    );
-	  }
-	});
-
-	module.exports = SearchBox;
-
-/***/ },
-/* 188 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var AppDispatcher = __webpack_require__(189);
+	var AppDispatcher = __webpack_require__(184);
 
 	/**
 	* Respond to actions in the view
@@ -22042,7 +21774,8 @@
 
 	    fetchRecipes: function fetchRecipes(searchTerm) {
 	        AppDispatcher.handleAction({
-	            actionType: 'FETCH_RECIPES'
+	            actionType: 'FETCH_RECIPES',
+	            searchTerm: searchTerm
 	        });
 	    }
 
@@ -22051,12 +21784,12 @@
 	module.exports = RecipeActions;
 
 /***/ },
-/* 189 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Dispatcher = __webpack_require__(190).Dispatcher;
+	var Dispatcher = __webpack_require__(185).Dispatcher;
 
 	// Create Dispatcher instance
 	var AppDispatcher = new Dispatcher();
@@ -22071,7 +21804,7 @@
 	module.exports = AppDispatcher;
 
 /***/ },
-/* 190 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -22083,11 +21816,11 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 
-	module.exports.Dispatcher = __webpack_require__(191);
+	module.exports.Dispatcher = __webpack_require__(186);
 
 
 /***/ },
-/* 191 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -22109,7 +21842,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var invariant = __webpack_require__(192);
+	var invariant = __webpack_require__(187);
 
 	var _prefix = 'ID_';
 
@@ -22324,7 +22057,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 192 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -22379,6 +22112,272 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
+/* 188 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = {
+	    white: '#fff',
+	    black: '#262626',
+	    charcoal: '#373737',
+	    gold: '#C0B283',
+	    paper: '#F4F4F4',
+	    silk: '#DCDC0C0'
+	};
+
+/***/ },
+/* 189 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Colors = __webpack_require__(188);
+	var Styles = __webpack_require__(190);
+	var Ingredients = __webpack_require__(191);
+
+	/**
+	 * This component renders a basic recipe card.
+	 * Todo: add hover states and fix card sizing problem
+	 **/
+
+	var Card = _react2.default.createClass({
+	  displayName: 'Card',
+
+
+	  getInitialState: function getInitialState() {
+	    return { data: [] };
+	  },
+
+	  render: function render() {
+	    var cardStyle = {
+	      width: '250px',
+	      height: '270px',
+	      display: 'block',
+	      textAlign: 'center',
+	      color: Colors.black,
+	      backgroundColor: Colors.paper,
+	      fontFamily: 'Roboto',
+	      cursor: 'pointer',
+	      borderRadius: '5%',
+	      fontWeight: '300',
+	      overflow: 'hidden',
+	      margin: '0px auto 30px auto'
+	    };
+
+	    var title = {
+	      color: Colors.paper,
+	      backgroundColor: Colors.charcoal,
+	      textAlign: 'center',
+	      padding: '35px 15px 25px 15px',
+	      width: '100%',
+	      fontWeight: '100',
+	      marginTop: '-10px',
+	      fontSize: '20px'
+	    };
+
+	    var hide = Styles.hide;
+	    var show = Styles.show;
+
+	    var thumbnail = {
+	      marginBottom: '15px',
+	      marginRight: 'auto',
+	      marginLeft: 'auto'
+	    };
+
+	    return _react2.default.createElement(
+	      'a',
+	      { href: this.props.recipe.href, key: this.props.number, target: '_blank' },
+	      _react2.default.createElement(
+	        'div',
+	        { style: cardStyle },
+	        _react2.default.createElement(
+	          'h3',
+	          { style: title },
+	          ' ',
+	          this.props.recipe.title,
+	          ' '
+	        ),
+	        _react2.default.createElement('img', { style: this.props.recipe.thumbnail !== '' ? Object.assign(show, thumbnail) : hide, src: this.props.recipe.thumbnail }),
+	        _react2.default.createElement(Ingredients, { items: this.props.recipe.ingredients, showPicture: this.props.recipe.thumbnail !== '' ? true : false })
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Card;
+
+/***/ },
+/* 190 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	// for frequently used styles
+
+	module.exports = {
+	   center: { marginLeft: 'auto', marginRight: 'auto', textAlign: 'center' },
+	   show: { display: 'block' },
+	   hide: { display: 'none' }
+	};
+
+/***/ },
+/* 191 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Colors = __webpack_require__(188);
+	var Styles = __webpack_require__(190);
+
+	/**
+	 * Ingredients contained in the recipes
+	 * Todo: Cut after certain character limit, add fixed margin
+	 **/
+
+	var Ingredients = _react2.default.createClass({
+	  displayName: 'Ingredients',
+
+	  getInitialState: function getInitialState() {
+	    return { data: [] };
+	  },
+
+	  render: function render() {
+	    var items = {
+	      width: '80%'
+	    };
+
+	    return _react2.default.createElement(
+	      'div',
+	      { style: Object.assign(items, Styles.center) },
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        this.props.items
+	      )
+	    );
+	  }
+
+	});
+
+	module.exports = Ingredients;
+
+/***/ },
+/* 192 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var RecipeActions = __webpack_require__(183);
+	var Colors = __webpack_require__(188);
+	var SearchStore = __webpack_require__(193);
+
+	/**
+	 * Search box for looking up new foods.
+	 * Todo: Add autosuggest, change UI when user submits a new search term
+	 **/
+
+	function getSearchState() {
+	  return {
+	    displayError: SearchStore.errorStatus(),
+	    displayWelcome: SearchStore.welcomeStatus(),
+	    errorMsg: SearchStore.getErrorMsg(),
+	    searchTerm: SearchStore.getSearchTerm(),
+	    typedTerm: SearchStore.getTypedTerm()
+	  };
+	}
+
+	// Form for user to enter a food and find new lunch ideas
+	var SearchBox = _react2.default.createClass({
+	  displayName: 'SearchBox',
+
+	  getInitialState: function getInitialState() {
+	    var state = getSearchState();
+	    return state;
+	  },
+
+	  handleSubmitSearch: function handleSubmitSearch(e) {
+	    e.preventDefault();
+	    RecipeActions.updateSearchTerm(this.state.searchTerm);
+	  },
+
+	  handleSearchTyping: function handleSearchTyping(e) {
+	    // this allows the user to see what they are typing
+	    this.setState({ searchTerm: e.target.value });
+	  },
+
+	  render: function render() {
+	    var searchContainer = {
+	      color: Colors.charcoal,
+	      margin: '10px 30px 30px 30px',
+	      fontFamily: 'Roboto',
+	      fontWeight: '100',
+	      fontSize: '17px',
+	      marginBottom: '30px'
+	    };
+
+	    var button = {
+	      color: Colors.paper,
+	      backgroundColor: Colors.charcoal,
+	      border: 'none',
+	      paddingLeft: '30px',
+	      paddingRight: '30px'
+	    };
+
+	    return _react2.default.createElement(
+	      'div',
+	      { style: searchContainer, key: 'searchBox' },
+	      _react2.default.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmitSearch },
+	        _react2.default.createElement('input', {
+	          type: 'text',
+	          placeholder: this.state.searchTerm != '' ? this.state.searchTerm : 'search',
+	          value: this.state.searchTerm,
+	          onChange: this.handleSearchTyping }),
+	        _react2.default.createElement(
+	          'button',
+	          { type: 'submit', style: button },
+	          'Search for Recipes'
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = SearchBox;
+
+/***/ },
 /* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -22387,35 +22386,41 @@
 	var EventEmitter = __webpack_require__(194).EventEmitter;
 	var assign = __webpack_require__(5);
 
-	var AppDispatcher = __webpack_require__(189);
-
-	var Colors = __webpack_require__(184);
+	var AppDispatcher = __webpack_require__(184);
+	var Colors = __webpack_require__(188);
 	var RecipeConstants = __webpack_require__(195);
 	var RecipeData = __webpack_require__(196);
+	var ReorderRecipes = __webpack_require__(199);
+
+	/**
+	* This store contains information regarding the user's searches
+	* and activity. The error states and welcome messages / prompts have not
+	* been developed yet.
+	**/
 
 	var _searches = {
 	  'errorStatus': false,
 	  'welcomeStatus': true,
 	  'errorMsg': 'No results found!',
 	  'searchTerm': 'onigiri',
-	  'typedTerm': '',
 	  'recipes': ''
 	};
 
 	var CHANGE_EVENT = 'change';
 
-	function loadRecipeData(searchTerm) {
-	  return new Promise(function (resolve, reject) {
-	    RecipeData.get(searchTerm).then(function (data) {
-	      _searches['recipes'] = data['recipes'];
-	    });
-	  });
-	}
-
 	function updateSearchTerm(searchTerm) {
 	  _searches['searchTerm'] = searchTerm;
-	  console.log('this searchTerm is now');
-	  console.log(_searches['searchTerm']);
+	}
+
+	function fetchRecipes(searchTerm) {
+	  RecipeData.get(searchTerm).bind(this).then(function (data) {
+	    var orderedRecipes = ReorderRecipes.byImage(data);
+	    _searches['recipes'] = orderedRecipes;
+	    SearchStore.emitChange();
+	    return true;
+	  }).catch(function (e) {
+	    return false;
+	  });
 	}
 
 	var SearchStore = assign({}, EventEmitter.prototype, {
@@ -22431,9 +22436,11 @@
 	    return _searches['errorMsg'];
 	  },
 
+	  getRecipes: function getRecipes() {
+	    return _searches['recipes'];
+	  },
+
 	  getSearchTerm: function getSearchTerm() {
-	    console.log('getSearchTerm');
-	    console.log(_searches['searchTerm']);
 	    return _searches['searchTerm'];
 	  },
 
@@ -22468,12 +22475,17 @@
 	        SearchStore.emitChange();
 	        break;
 
+	      case RecipeConstants.FETCH_RECIPES:
+	        searchTerm = action.searchTerm;
+
+	        fetchRecipes(searchTerm);
+	        break;
+
 	      case RecipeConstants.UPDATE_SEARCH_TERM:
-	        console.log('made it to inside the appDispatcher');
 	        searchTerm = action.searchTerm;
 
 	        updateSearchTerm(searchTerm);
-	        SearchStore.emitChange();
+	        fetchRecipes(searchTerm);
 	        break;
 	    }
 	    return true;
@@ -28591,7 +28603,7 @@
 
 
 	// module
-	exports.push([module.id, ".default {\n    background-color: #DCD0C0;\n    font-family: 'Yrsa';\n}\n\n.header {\n    margin-left: 34px;\n    margin-bottom: 30px;\n}\n\n", ""]);
+	exports.push([module.id, ".default {\n    background-color: #DCD0C0;\n    font-family: 'Yrsa';\n}\n\n.header {\n    margin-left: 34px;\n    margin-bottom: 15px;\n}\n\n", ""]);
 
 	// exports
 

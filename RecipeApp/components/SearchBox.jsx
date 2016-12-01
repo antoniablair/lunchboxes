@@ -43,7 +43,7 @@ var SearchBox = React.createClass ({
       margin: '10px 30px 30px 30px',
       fontFamily: 'Roboto',
       fontWeight: '100',
-      fontSize: '18px',
+      fontSize: '17px',
       marginBottom: '30px',
     };
 

@@ -22,10 +22,12 @@ var Ingredients = React.createClass({
 
     return (
       <div style={Object.assign(items, Styles.center)}>
-        <p>{this.props.items}</p>
+        <p>{this.props.showPicture === true ? (this.props.items).split(' ').splice(0,10).join(' ').replace(/,\s*$/, '') : this.props.items}</p>
       </div>
     );
   },
+
+
 
 });
 
