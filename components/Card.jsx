@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 var Promise = require('bluebird');
 var Colors = require('../constants/Colors');
+var Styles = require('../constants/CommonStyles');
 var Ingredients = require('../components/Ingredients.jsx');
 
 var Card = React.createClass({
@@ -23,25 +24,20 @@ var Card = React.createClass({
       borderRadius: '5%',
       fontWeight: '300', 
       overflow: 'hidden',
-      marginBottom: '30px',
-      marginLeft: 'auto',
-      marginRight: 'auto',
+      margin: '0px auto 30px auto',
     };
     
     var title = {
       color: Colors.paper,
       backgroundColor: Colors.charcoal,
       textAlign: 'center',
-      paddingTop: '35px',
-      paddingBottom: '25px',
-      paddingLeft: '15px',
-      paddingRight: '15px',
+      padding: '35px 15px 25px 15px',
       width: '100%',
       fontWeight: '100',
       marginTop: '-10px',
       fontSize: '22px',
     };
-    
+
     var text = {
       lineHeight: '20px',
       fontSize: '15px',
@@ -51,11 +47,11 @@ var Card = React.createClass({
       display: 'block',
     };
 
-    var hide = {
-      display: 'none',
-    };
+    var hide = Styles.hide;
+    var show = Styles.show;
 
     var thumbnail = {
+      marginBottom: '15px',
       marginRight: 'auto',
       marginLeft: 'auto',
     };

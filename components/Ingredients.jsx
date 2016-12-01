@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 var Colors = require('../constants/Colors');
+var Styles = require('../constants/CommonStyles');
 
 var Ingredients = React.createClass({
   getInitialState: function() {
@@ -10,16 +11,12 @@ var Ingredients = React.createClass({
 
   render: function() {
     var items = {
-      textAlign: 'left',
       width: '80%',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      textAlign: 'center',
     };
 
 
     return (
-      <div style={items}>
+      <div style={Object.assign(items, Styles.center)}>
         <p>{this.props.items}</p>
       </div>
     );

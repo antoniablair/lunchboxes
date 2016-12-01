@@ -31,7 +31,7 @@ var Recipe = React.createClass ({
 
   
   render: function() {
-      return (
+    return (
       <div>
         {(this.state.data.length > 0) ? this.renderCards(this.state.data) : ''}
       </div>
