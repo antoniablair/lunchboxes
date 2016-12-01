@@ -15,7 +15,6 @@ function getSearchState() {
     displayWelcome: SearchStore.welcomeStatus(),
     errorMsg: SearchStore.getErrorMsg(),
     searchTerm: SearchStore.getSearchTerm(),
-    typedTerm: SearchStore.getTypedTerm(),
   }
 }
 

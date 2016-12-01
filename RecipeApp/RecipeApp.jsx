@@ -27,10 +27,11 @@ var Recipe = React.createClass ({
     // call the initial fetchRecipes with whatever search term is a URL parameter.
     // If no search term available, fall back to the default search term
 
-    if (this.state.recipes === undefined || this.state.recipes === '') {
-      if (this.state.searchTerm !== undefined) {
-        RecipeActions.fetchRecipes(this.state.searchTerm);
-      }
+    var recipes = this.state.recipes,
+        searchTerm = this.state.searchTerm;
+
+    if ((recipes === undefined || recipes === '') && searchTerm !== undefined) {
+      RecipeActions.fetchRecipes(this.state.searchTerm);
     }
     SearchStore.addChangeListener(this._onChange);
   },
@@ -39,10 +40,6 @@ var Recipe = React.createClass ({
     SearchStore.removeChangeListener(this._onChange);
   },
 
-  componentWillReceiveProps: function() {
-    console.log('component will receive props');
-  },
-  
   render: function() {
     return (
       <div key='recipeContainer'>

@@ -97,20 +97,17 @@
 	    // call the initial fetchRecipes with whatever search term is a URL parameter.
 	    // If no search term available, fall back to the default search term
 
-	    if (this.state.recipes === undefined || this.state.recipes === '') {
-	      if (this.state.searchTerm !== undefined) {
-	        RecipeActions.fetchRecipes(this.state.searchTerm);
-	      }
+	    var recipes = this.state.recipes,
+	        searchTerm = this.state.searchTerm;
+
+	    if ((recipes === undefined || recipes === '') && searchTerm !== undefined) {
+	      RecipeActions.fetchRecipes(this.state.searchTerm);
 	    }
 	    SearchStore.addChangeListener(this._onChange);
 	  },
 
 	  componentWillUnmount: function componentWillUnmount() {
 	    SearchStore.removeChangeListener(this._onChange);
-	  },
-
-	  componentWillReceiveProps: function componentWillReceiveProps() {
-	    console.log('component will receive props');
 	  },
 
 	  render: function render() {
@@ -22147,7 +22144,6 @@
 
 	/**
 	 * This component renders a basic recipe card.
-	 * Todo: add hover states and fix card sizing problem
 	 **/
 
 	var Card = _react2.default.createClass({
@@ -22250,8 +22246,7 @@
 	var Styles = __webpack_require__(190);
 
 	/**
-	 * Ingredients contained in the recipes
-	 * Todo: Cut after certain character limit, add fixed margin
+	 * Ingredients contained in the recipes.
 	 **/
 
 	var Ingredients = _react2.default.createClass({
@@ -22302,8 +22297,7 @@
 	var SearchStore = __webpack_require__(193);
 
 	/**
-	 * Search box for looking up new foods.
-	 * Todo: Add autosuggest, change UI when user submits a new search term
+	 * Search box for looking up new recipes and lunch ideas.
 	 **/
 
 	function getSearchState() {
@@ -22311,8 +22305,7 @@
 	    displayError: SearchStore.errorStatus(),
 	    displayWelcome: SearchStore.welcomeStatus(),
 	    errorMsg: SearchStore.getErrorMsg(),
-	    searchTerm: SearchStore.getSearchTerm(),
-	    typedTerm: SearchStore.getTypedTerm()
+	    searchTerm: SearchStore.getSearchTerm()
 	  };
 	}
 
@@ -22441,10 +22434,6 @@
 
 	  getSearchTerm: function getSearchTerm() {
 	    return _searches['searchTerm'];
-	  },
-
-	  getTypedTerm: function getTypedTerm() {
-	    return _searches['typedTerm'];
 	  },
 
 	  emitChange: function emitChange(callback) {
@@ -22824,13 +22813,9 @@
 
 	var Promise = __webpack_require__(197);
 
-	var RecipeDataJquery = {
+	var RecipeData = {
 	    get: function get(searchTerm) {
 	        return new Promise(function (resolve, reject) {
-	            console.log('loading');
-	            console.log($);
-	            console.log(searchTerm);
-
 	            var url = 'http://www.recipepuppy.com/api/?q=' + searchTerm;
 
 	            $.ajax({
@@ -22840,7 +22825,6 @@
 	                crossDomain: 'true',
 	                jsonpCallback: 'callback',
 	                success: function success(data) {
-	                    console.log(data);
 	                    resolve(data['results']);
 	                },
 	                error: function error(err) {
@@ -22853,7 +22837,7 @@
 	    }
 	};
 
-	module.exports = RecipeDataJquery;
+	module.exports = RecipeData;
 
 /***/ },
 /* 197 */

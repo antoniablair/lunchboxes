@@ -59,10 +59,6 @@ var SearchStore = assign({}, EventEmitter.prototype, {
     return _searches['searchTerm'];
   },
 
-  getTypedTerm: function() {
-    return _searches['typedTerm'];
-  },
-
   emitChange: function(callback) {
     this.emit(CHANGE_EVENT);
   },
