@@ -5,7 +5,7 @@ var Card = require('./components/Card.jsx');
 var Colors = require('./constants/Colors');
 
 var RecipeData = require('./utils/RecipeData');
-
+var ReorderRecipes = require('./utils/ReorderRecipes');
 
 
 var Recipe = React.createClass ({
@@ -15,7 +15,8 @@ var Recipe = React.createClass ({
   
   fetchRecipes: function(searchTerm) {
     RecipeData.get(searchTerm).bind(this).then(function(data) {
-      this.setState({ data: data});
+      var orderedRecipes = ReorderRecipes.byImage(data);
+      this.setState({ data: orderedRecipes});
       return true;
     }).catch(function(e) {
       return false;
@@ -26,13 +27,12 @@ var Recipe = React.createClass ({
     // todo:
     // call the initial fetchRecipes with whatever search term is a URL parameter.
     // If no search term available, fall back to a starter search term like ramen
-    this.fetchRecipes('ramen');
+    this.fetchRecipes('onigiri');
   },
-
   
   render: function() {
     return (
-      <div>
+      <div key='recipeContainer'>
         {(this.state.data.length > 0) ? this.renderCards(this.state.data) : ''}
       </div>
     );
@@ -48,7 +48,6 @@ var Recipe = React.createClass ({
     if (recipes !== undefined && recipes.length > 0) {
       for (var i = 0; i < recipes.length; i++) {
         var currentRecipe = recipes[i];
-
         output.push(<div className='col-xs-12 col-sm-4'><Card recipe={currentRecipe} number={i} /></div>);
       }
     }
@@ -58,4 +57,4 @@ var Recipe = React.createClass ({
 });
 
 
-ReactDOM.render(<Recipe/>, document.getElementById('recipeContainer'));
+ReactDOM.render(<Recipe />, document.getElementById('recipeContainer'));

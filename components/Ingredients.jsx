@@ -14,7 +14,6 @@ var Ingredients = React.createClass({
       width: '80%',
     };
 
-
     return (
       <div style={Object.assign(items, Styles.center)}>
         <p>{this.props.items}</p>

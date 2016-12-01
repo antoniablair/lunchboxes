@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-var Promise = require('bluebird');
 var Colors = require('../constants/Colors');
 var Styles = require('../constants/CommonStyles');
 var Ingredients = require('../components/Ingredients.jsx');
@@ -35,7 +34,7 @@ var Card = React.createClass({
       width: '100%',
       fontWeight: '100',
       marginTop: '-10px',
-      fontSize: '22px',
+      fontSize: '20px',
     };
 
     var text = {
@@ -57,7 +56,7 @@ var Card = React.createClass({
     };
     
       return (
-      <a href={this.props.recipe.href} key={this.props.key} target='_blank'>
+      <a href={this.props.recipe.href} key={this.props.number} target='_blank'>
         <div style={cardStyle}>
           <h3 style={title}> {this.props.recipe.title} </h3>
           <img style={(this.props.recipe.thumbnail !== '') ? Object.assign(show, thumbnail) : hide} src={this.props.recipe.thumbnail} />

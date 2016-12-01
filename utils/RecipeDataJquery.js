@@ -1,5 +1,4 @@
 var Promise = require('bluebird');
-var Secrets = require('../constants/Secrets');
 
 var RecipeDataJquery = {
      get: function(searchTerm) {
