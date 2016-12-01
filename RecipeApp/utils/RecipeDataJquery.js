@@ -6,11 +6,12 @@ var RecipeDataJquery = {
              $.ajax({
                  url: ('http://www.recipepuppy.com/api/?q=' + searchTerm),
                  dataType: 'json',
-                 cache: false,
+                 cache: true,
                  success: function(data) {
-                     resolve(data);
+                     resolve(data['results']);
                  },
                  error: function(err) {
+                   console.log('the error is ' + err);
                    var result = new Error();
                    reject(result);
                  },

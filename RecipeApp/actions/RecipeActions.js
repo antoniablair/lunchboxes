@@ -15,6 +15,7 @@ var RecipeActions = {
     fetchRecipes: function(searchTerm) {
         AppDispatcher.handleAction({
             actionType: 'FETCH_RECIPES',
+            searchTerm: searchTerm,
         })
     },
     

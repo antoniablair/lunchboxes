@@ -5,6 +5,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var Colors = require('../constants/Colors');
 var RecipeConstants = require('../constants/RecipeConstants');
 var RecipeData = require('../utils/RecipeData');
+var ReorderRecipes = require('../utils/ReorderRecipes');
 
 /**
 * This store contains information regarding the user's searches
@@ -17,20 +18,24 @@ var _searches = {
   'welcomeStatus': true,
   'errorMsg': 'No results found!',
   'searchTerm': 'onigiri',
+  'recipes': '',
 };
 
 var CHANGE_EVENT = 'change';
 
-function loadRecipeData(searchTerm) {
-  return new Promise(function (resolve, reject) {
-    RecipeData.get(searchTerm).then(function(data) {
-        _searches['recipes'] = data['recipes'];
-    })
-  })
-}
-
 function updateSearchTerm(searchTerm) {
   _searches['searchTerm'] = searchTerm;
+}
+
+function fetchRecipes(searchTerm) {
+  RecipeData.get(searchTerm).bind(this).then(function(data) {
+    var orderedRecipes = ReorderRecipes.byImage(data);
+    _searches['recipes'] = orderedRecipes;
+    SearchStore.emitChange();
+    return true;
+  }).catch(function(e) {
+    return false;
+  })
 }
 
 var SearchStore = assign({}, EventEmitter.prototype, {
@@ -46,9 +51,11 @@ var SearchStore = assign({}, EventEmitter.prototype, {
     return _searches['errorMsg'];
   },
 
+  getRecipes: function() {
+    return _searches['recipes'];
+  },
+
   getSearchTerm: function() {
-    console.log('getSearchTerm');
-    console.log(_searches['searchTerm']);
     return _searches['searchTerm'];
   },
 
@@ -83,11 +90,17 @@ var SearchStore = assign({}, EventEmitter.prototype, {
         SearchStore.emitChange();
       break;
 
+      case RecipeConstants.FETCH_RECIPES:
+        searchTerm = action.searchTerm;
+
+        fetchRecipes(searchTerm);
+      break;
+
       case RecipeConstants.UPDATE_SEARCH_TERM:
         searchTerm = action.searchTerm;
 
         updateSearchTerm(searchTerm);
-        SearchStore.emitChange();
+        fetchRecipes(searchTerm);
       break;
     }
     return true;

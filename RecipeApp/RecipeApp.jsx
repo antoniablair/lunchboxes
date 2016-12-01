@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+var RecipeActions = require('./actions/RecipeActions');
 var Colors = require('./constants/Colors');
 var Card = require('./components/Card.jsx');
 var SearchBox = require('./components/SearchBox.jsx');
@@ -12,6 +13,7 @@ var ReorderRecipes = require('./utils/ReorderRecipes');
 function getRecipeAppState() {
   return {
     searchTerm: SearchStore.getSearchTerm(),
+    recipes: SearchStore.getRecipes(),
   }
 }
 
@@ -20,38 +22,33 @@ var Recipe = React.createClass ({
     var state = getRecipeAppState();
     return state;
   },
-  
-  fetchRecipes: function(searchTerm) {
-    RecipeData.get(searchTerm).bind(this).then(function(data) {
-      var orderedRecipes = ReorderRecipes.byImage(data);
-      this.setState({ data: orderedRecipes});
-      return true;
-    }).catch(function(e) {
-      return false;
-    })
-  },
 
   componentDidMount: function() {
     // todo:
     // call the initial fetchRecipes with whatever search term is a URL parameter.
     // If no search term available, fall back to the default search term
+
+    if (this.state.recipes === undefined || this.state.recipes === '') {
+      if (this.state.searchTerm !== undefined) {
+        RecipeActions.fetchRecipes(this.state.searchTerm);
+      }
+    }
     SearchStore.addChangeListener(this._onChange);
-    this.fetchRecipes(this.state.searchTerm);
   },
 
   componentWillUnmount: function() {
     SearchStore.removeChangeListener(this._onChange);
   },
 
-  componentWillUpdate: function() {
-    this.fetchRecipes(this.state.searchTerm);
+  componentWillReceiveProps: function() {
+    console.log('component will receive props');
   },
   
   render: function() {
     return (
       <div key='recipeContainer'>
         <SearchBox />
-        {(this.state.data !== undefined && this.state.data.length > 0) ? this.renderCards(this.state.data) : ''}
+        {(this.state.recipes !== undefined && this.state.recipes.length > 0) ? this.renderCards(this.state.recipes) : ''}
       </div>
     );
   },
