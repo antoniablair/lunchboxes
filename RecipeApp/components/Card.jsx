@@ -7,7 +7,6 @@ var Ingredients = require('../components/Ingredients.jsx');
 
 /**
  * This component renders a basic recipe card.
- * Todo: add hover states and fix card sizing problem
  **/
 
 var Card = React.createClass({

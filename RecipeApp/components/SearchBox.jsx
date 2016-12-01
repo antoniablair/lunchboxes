@@ -6,8 +6,7 @@ var Colors = require('../constants/Colors');
 var SearchStore = require('../stores/SearchStore');
 
 /**
- * Search box for looking up new foods.
- * Todo: Add autosuggest, change UI when user submits a new search term
+ * Search box for looking up new recipes and lunch ideas.
  **/
 
 function getSearchState() {

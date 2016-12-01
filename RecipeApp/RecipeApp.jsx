@@ -6,7 +6,6 @@ var Colors = require('./constants/Colors');
 var Card = require('./components/Card.jsx');
 var SearchBox = require('./components/SearchBox.jsx');
 var SearchStore = require('./stores/SearchStore');
-var RecipeData = require('./utils/RecipeData');
 var ReorderRecipes = require('./utils/ReorderRecipes');
 
 

@@ -5,10 +5,8 @@ var Colors = require('../constants/Colors');
 var Styles = require('../constants/CommonStyles');
 
 /**
- * Ingredients contained in the recipes
- * Todo: Cut after certain character limit, add fixed margin
+ * Ingredients contained in the recipes.
  **/
-
 
 var Ingredients = React.createClass({
   getInitialState: function() {

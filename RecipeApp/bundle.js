@@ -75,7 +75,6 @@
 	var Card = __webpack_require__(189);
 	var SearchBox = __webpack_require__(192);
 	var SearchStore = __webpack_require__(193);
-	var RecipeData = __webpack_require__(196);
 	var ReorderRecipes = __webpack_require__(199);
 
 	function getRecipeAppState() {
@@ -22273,7 +22272,7 @@
 	      _react2.default.createElement(
 	        'p',
 	        null,
-	        this.props.items
+	        this.props.showPicture === true ? this.props.items.split(' ').splice(0, 10).join(' ').replace(/,\s*$/, '') : this.props.items
 	      )
 	    );
 	  }
@@ -22825,32 +22824,36 @@
 
 	var Promise = __webpack_require__(197);
 
-	var RecipeData = {
+	var RecipeDataJquery = {
 	    get: function get(searchTerm) {
 	        return new Promise(function (resolve, reject) {
+	            console.log('loading');
+	            console.log($);
+	            console.log(searchTerm);
 
-	            var xmlhttp = new XMLHttpRequest();
 	            var url = 'http://www.recipepuppy.com/api/?q=' + searchTerm;
 
-	            xmlhttp.onreadystatechange = function () {
-	                if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-	                    if (xmlhttp.status == 200) {
-	                        var data = JSON.parse(xmlhttp.responseText);
-	                        resolve(data['results']);
-	                    } else {
-	                        //   todo: better error handling
-	                        var result = new Error();
-	                        reject(result);
-	                    }
+	            $.ajax({
+	                url: url,
+	                type: 'GET',
+	                dataType: 'jsonp',
+	                crossDomain: 'true',
+	                jsonpCallback: 'callback',
+	                success: function success(data) {
+	                    console.log(data);
+	                    resolve(data['results']);
+	                },
+	                error: function error(err) {
+	                    console.log('the error is ' + err);
+	                    var result = new Error();
+	                    reject(result);
 	                }
-	            };
-	            xmlhttp.open("GET", url, true);
-	            xmlhttp.send();
+	            });
 	        });
 	    }
 	};
 
-	module.exports = RecipeData;
+	module.exports = RecipeDataJquery;
 
 /***/ },
 /* 197 */
